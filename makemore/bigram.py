@@ -1,5 +1,6 @@
 from torch import nn
 import torch
+import torch.nn.functional as F
 
 class Bigram(nn.Module):
 
@@ -37,6 +38,6 @@ class Bigram(nn.Module):
         loss = None
 
         if y is not None:
-            loss = -torch.log(self.logits[x][out])
+            loss = F.cross_entropy(self.logits[x][out], y)
 
         return out, loss
