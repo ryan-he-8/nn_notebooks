@@ -81,13 +81,13 @@ class Embedding:
 class FlattenConsecutive:
 
     def __init__(self, n):
-        self.n = n
+        self.n = n # block_size//n = how many "blocks" wanted
 
     def __call__(self, x):
-        B, T, C = x.shape # block x num_samples
+        B, T, C = x.shape # batch_size x block_size x emb_size
         x = x.view(B, T//self.n, C*self.n)
         if x.shape[1] == 1:
-            x = x.squeeze(1)
+            x = x.squeeze(1) # either squeezes out all dimenstions of 1 or specified dimension (if that dimension is not one then nothing happens)
         self.out = x
         return self.out
     
